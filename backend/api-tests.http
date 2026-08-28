@@ -18,6 +18,9 @@ Content-Type: application/json
 
 {
   "email": "test@example.com",
-  "password": "password123n"
+  "password": "password123"
 }
 
+### Get current user (replace token with one from login response)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer PASTE_TOKEN_HERE

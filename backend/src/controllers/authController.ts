@@ -7,10 +7,23 @@ import { hashPassword } from "../utils/password.js";
 import { generateToken } from "../utils/jwt.js";
 import { loginSchema } from "../validators/auth.js";
 import { verifyPassword } from "../utils/password.js";
+import { AuthenticatedRequest } from "../middleware/auth.js";
+
+export async function me(req: AuthenticatedRequest, res: Response) {
+  const existingUser = await db.query.users.findFirst({
+    where: eq(users.id, req.userId!),
+  });
+
+  if (!existingUser) {
+    res.status(404).json({ error: "User not found" });
+    return;
+  }
+
+  res.json({ user: { id: existingUser.id, email: existingUser.email } });
+}
 
 export async function register(req: Request, res: Response) {
   const parsed = registerSchema.safeParse(req.body);
-
 
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid input", details: parsed.error.issues});
