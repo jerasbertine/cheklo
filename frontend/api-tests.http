@@ -1,0 +1,23 @@
+@baseUrl = http://localhost:3000
+
+### Register a new user (sets the httpOnly "token" cookie automatically)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123",
+  "name": "Test"
+}
+
+### Login (also sets the cookie)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Dashboard (protected page, uses the cookie set above automatically)
+GET {{baseUrl}}/dashboard
