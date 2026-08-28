@@ -19,7 +19,7 @@ export async function me(req: AuthenticatedRequest, res: Response) {
     return;
   }
 
-  res.json({ user: { id: existingUser.id, email: existingUser.email } });
+  res.json({ user: { id: existingUser.id, email: existingUser.email , name: existingUser.name} });
 }
 
 export async function register(req: Request, res: Response) {
@@ -30,7 +30,7 @@ export async function register(req: Request, res: Response) {
     return;
   }
 
-  const { email, password } = parsed.data;
+  const { email, password , name} = parsed.data;
 
   const existingUser = await db.query.users.findFirst({
     where: eq(users.email, email),
@@ -45,8 +45,8 @@ export async function register(req: Request, res: Response) {
 
   const [newUser] = await db
     .insert(users)
-    .values({ email, passwordHash})
-    .returning({ id: users.id, email: users.email});
+    .values({ email, passwordHash, name})
+    .returning({ id: users.id, email: users.email, name: users.name});
 
   if (!newUser) {
     res.status(500).json({ error: "Failed to create user"});
@@ -86,5 +86,5 @@ export async function login(req: Request, res: Response) {
 
   const token = generateToken({ userId: existingUser.id});
 
-  res.json({user: { id: existingUser.id, email: existingUser.email }, token});
+  res.json({user: { id: existingUser.id, email: existingUser.email, name: existingUser.name}, token});
 }

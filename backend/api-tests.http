@@ -9,7 +9,8 @@ Content-Type: application/json
 
 {
   "email": "test@example.com",
-  "password": "password123"
+  "password": "password123",
+  "name": "Test"
 }
 
 ### Login
@@ -18,9 +19,10 @@ Content-Type: application/json
 
 {
   "email": "test@example.com",
-  "password": "password123"
+  "password": "password123",
+  "name": "Test"
 }
 
 ### Get current user (replace token with one from login response)
 GET {{baseUrl}}/api/auth/me
-Authorization: Bearer PASTE_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTc4NzkzODIzMCwiZXhwIjoxNzg3OTQxODMwfQ.S3QQ5xXCi66Og-8nxC0XBF__J-tuM-W3MYm4Q8x1PM0
