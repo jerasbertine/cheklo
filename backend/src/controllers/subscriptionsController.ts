@@ -3,6 +3,7 @@ import { eq, and } from "drizzle-orm";
 import { db } from "../db/index.js";
 import { subscriptions } from "../db/schema.js";
 import { createSubscriptionSchema, updateSubscriptionSchema } from "../validators/subscriptions.js";
+import { calculateMonthlyTotal, calculateAnnualTotal } from "../utils/calculations.js";
 import type { AuthenticatedRequest } from "../middleware/auth.js";
 
 export async function list(req: AuthenticatedRequest, res: Response) {
@@ -10,7 +11,13 @@ export async function list(req: AuthenticatedRequest, res: Response) {
     where: eq(subscriptions.userId, req.userId!)
   });
 
-  res.json({ subscriptions: userSubscriptions});
+  res.json({
+    subscriptions: userSubscriptions,
+    totals: {
+      monthly: calculateMonthlyTotal(userSubscriptions),
+      annual: calculateAnnualTotal(userSubscriptions),
+    },
+  });
 }
 
 export async function create(req: AuthenticatedRequest, res: Response) {
