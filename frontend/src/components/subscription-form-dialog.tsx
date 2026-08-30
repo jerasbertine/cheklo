@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
+import { Plus, Pencil} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldGroup, FieldError } from "@/components/ui/field";
@@ -20,15 +20,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { Subscription } from "@/lib/subscriptions";
 
-export function AddSubscriptionDialog() {
+interface SubscriptionFormDialogProps {
+  subscription?: Subscription;
+} 
+
+export function SubscriptionFormDialog({ subscription }: SubscriptionFormDialogProps) {
+  const isEditing = !!subscription;
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [frequency, setFrequency] = useState<"monthly" | "yearly">("monthly");
-  const [category, setCategory] = useState("");
-  const [nextBillingDate, setNextBillingDate] = useState("");
+  const [name, setName] = useState(subscription?.name ?? "");
+  const [price, setPrice] = useState(subscription ? String(subscription.price) : "");
+  const [frequency, setFrequency] = useState<"monthly" | "yearly">(
+    subscription?.frequency ?? "monthly"
+  );
+  const [category, setCategory] = useState(subscription?.category ?? "");
+  const [nextBillingDate, setNextBillingDate] = useState(
+    subscription?.nextBillingDate ?? ""
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,8 +47,12 @@ export function AddSubscriptionDialog() {
     setError(null);
     setIsLoading(true);
 
-    const response = await fetch("/api/subscriptions", {
-      method: "POST",
+    const url = isEditing
+    ?`/api/subscriptions/${subscription.id}`
+    : "/api/subscriptions";
+
+    const response = await fetch(url, {
+      method: isEditing ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name,
@@ -58,24 +72,28 @@ export function AddSubscriptionDialog() {
     }
 
     setOpen(false);
-    setName("");
-    setPrice("");
-    setCategory("");
-    setNextBillingDate("");
     router.refresh();
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="size-4" />
-          Ajouter un abonnement
-        </Button>
+        {isEditing ? (
+          <Button variant="ghost" size="icon">
+            <Pencil className="size-4" />
+          </Button>
+        ) : (
+          <Button>
+            <Plus className="size-4" />
+            Ajouter un abonnement
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nouvel abonnement</DialogTitle>
+          <DialogTitle>
+            {isEditing ? "Modifier l'abonnement" : "Nouvel abonnement"}
+          </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <FieldGroup>
