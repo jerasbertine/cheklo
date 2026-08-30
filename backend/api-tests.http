@@ -25,4 +25,34 @@ Content-Type: application/json
 
 ### Get current user (replace token with one from login response)
 GET {{baseUrl}}/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTc4NzkzODIzMCwiZXhwIjoxNzg3OTQxODMwfQ.S3QQ5xXCi66Og-8nxC0XBF__J-tuM-W3MYm4Q8x1PM0
+Authorization: Bearer PASTE_TOKEN_HERE
+
+### List my subscriptions (replace token)
+GET {{baseUrl}}/api/subscriptions
+Authorization: Bearer PASTE_TOKEN_HERE
+
+### Create a subscription (replace token)
+POST {{baseUrl}}/api/subscriptions
+Content-Type: application/json
+Authorization: Bearer PASTE_TOKEN_HERE
+
+{
+  "name": "Netflix",
+  "price": 13.49,
+  "frequency": "monthly",
+  "category": "Vidéo",
+  "nextBillingDate": "2026-09-04"
+}
+
+### Update a subscription (replace token and id)
+PUT {{baseUrl}}/api/subscriptions/1
+Content-Type: application/json
+Authorization: Bearer PASTE_TOKEN_HERE
+
+{
+  "price": 15.49
+}
+
+### Delete a subscription (replace token and id)
+DELETE {{baseUrl}}/api/subscriptions/1
+Authorization: Bearer PASTE_TOKEN_HERE
