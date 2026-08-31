@@ -22,6 +22,13 @@
       "when": 1788003836129,
       "tag": "0002_overconfident_stellaris",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788120572779,
+      "tag": "0003_unusual_stardust",
+      "breakpoints": true
     }
   ]
 }

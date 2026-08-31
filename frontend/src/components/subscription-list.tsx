@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Subscription } from "@/lib/subscriptions";
 import { SubscriptionFormDialog } from "@/components/subscription-form-dialog";
 import { DeleteSubscriptionButton } from "@/components/delete-subscription-button";
+import { ScoreBadge } from "@/components/score-badge";
 import {
   Select,
   SelectContent,
@@ -71,8 +72,11 @@ export function SubscriptionsList({ subscriptions }: SubscriptionsListProps) {
             <div key={sub.id} className="flex items-center justify-between rounded-md border p-4">
               <div>
                 <p className="font-medium">{sub.name}</p>
-                <p className="text-sm text-muted-foreground">{sub.category}</p>
-              </div>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm text-muted-foreground">{sub.category}</p>
+                  <ScoreBadge category={sub.score.category} />
+                </div>
+              </div>         
               <div className="flex items-center gap-3">
                 <p className="font-semibold">{sub.price.toFixed(2)} €</p>
                 <SubscriptionFormDialog subscription={sub} />

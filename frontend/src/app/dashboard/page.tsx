@@ -3,10 +3,11 @@ import { getSubscriptions } from "@/lib/subscriptions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SubscriptionFormDialog } from "@/components/subscription-form-dialog";
 import { SubscriptionsList } from "@/components/subscription-list";
+import { PendingCheckinsBanner } from "@/components/pending-checkins-banner";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
-  const { subscriptions, totals } = await getSubscriptions();
+  const { subscriptions, totals, pendingCheckins } = await getSubscriptions();
 
   return (
     <div className="space-y-6 p-8">
@@ -40,7 +41,7 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-
+      <PendingCheckinsBanner pendingCheckins={pendingCheckins} />
       <SubscriptionsList subscriptions={subscriptions} />
     </div>
   );
