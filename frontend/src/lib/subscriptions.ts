@@ -7,6 +7,15 @@ export interface Subscription {
   frequency: "monthly" | "yearly";
   category: string;
   nextBillingDate: string;
+  score: {
+    category: "high" | "medium" | "low" | "not_rated";
+    ratio: number | null;
+  };
+}
+
+export interface PendingCheckin {
+  id: number;
+  name: string;
 }
 
 export interface SubscriptionsResponse {
@@ -15,6 +24,7 @@ export interface SubscriptionsResponse {
     monthly: number;
     annual: number;
   };
+  pendingCheckins: PendingCheckin[];
 }
 
 export async function getSubscriptions(): Promise<SubscriptionsResponse> {

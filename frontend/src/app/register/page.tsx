@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldGroup, FieldError } from "@/components/ui/field";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function registerPage() {
+export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
